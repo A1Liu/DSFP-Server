@@ -1,0 +1,4 @@
+javabase.jdbc.url = 
+javabase.jdbc.driver = 
+javabase.jdbc.username =
+javabase.jdbc.password = 
