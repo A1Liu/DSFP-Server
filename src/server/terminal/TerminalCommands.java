@@ -6,6 +6,7 @@ import server.BaseRequestHandler;
 import server.terminal.commands.*;
 import server.terminal.commands.admin.*;
 import server.terminal.commands.login.*;
+import server.terminal.commands.otherUserRequests.Search;
 import server.terminal.commands.selfRequests.*;
 
 import static util.DataUtil.prepend;
@@ -129,19 +130,19 @@ public class TerminalCommands extends Commands {
 		//basics
 		addCommand(0,new LoginExistUser(this));//login with username and password
 		addCommand(1,new UserLogout(this));//log out
-		addCommand(2, new TerminalCommand(this){@Override public void execute(Object... elist) {getObject().quit();}});
+		addCommand(2,new TerminalCommand(this){@Override public void execute(Object... elist) {getObject().quit();}});
 		addCommand(3,new LoginNewUser(this));//new user
 		
 		//interact with own account
 		addCommand(10,new Refresh(this));//refresh user information
 		addCommand(11,new ChangeUsername(this));//change username
 		addCommand(12,new ChangeEmail(this));//change email
-		addCommand(13, new ChangeName(this)); //change name
+		addCommand(13,new ChangeName(this)); //change name
 		addCommand(14,new ChangePass(this));//change password
-		addCommand(19, new ChangeInfo(this));//change information. used by non-terminal clients only.
+		addCommand(19,new ChangeInfo(this));//change information. used by non-terminal clients only.
 		
 		//interact with other users
-		//addCommand(20,null);//search
+		addCommand(20,new Search(this));//search
 		//addCommand(21,null);//get info on specified user
 		//addCommand(22,null);//rate another user. takes arguments <username> <integer>. If currently viewing a user, then <username> field is optional
 		//addCommand(23,null);//friend another user. takes arguments <username>. If currently viewing a user, then <username> field is optional

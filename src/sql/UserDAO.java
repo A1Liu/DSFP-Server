@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.DAOException;
+import users.RatedUser;
 import users.User;
 
 /**
@@ -47,8 +48,8 @@ public class UserDAO implements dao.UserDAO {
         "SELECT id FROM Users WHERE email = ?";
     private static final String SQL_EXIST_USERNAME =
             "SELECT id FROM Users WHERE username = ?";
-//    private static final String SQL_SEARCH_USERNAME = 
-//    		"SELECT username FROM Users WHERE username LIKE ?;";
+    private static final String SQL_SEARCH_USERNAME = 
+    		"SELECT username FROM Users WHERE username LIKE ?";
 
     // Vars ---------------------------------------------------------------------------------------
 
@@ -126,7 +127,7 @@ public class UserDAO implements dao.UserDAO {
     }
 
     @Override
-    public User create(User user) throws IllegalArgumentException, DAOException {
+    public synchronized User create(User user) throws IllegalArgumentException, DAOException {
         if (user.getID() != null) {
             throw new IllegalArgumentException("User is already created, the user ID is not null.");
         }
@@ -161,7 +162,7 @@ public class UserDAO implements dao.UserDAO {
     }
 
     @Override
-    public void update(User user) throws DAOException {
+    public synchronized void update(User user) throws DAOException {
         if (user.getID() == null) {
             throw new IllegalArgumentException("User is not created yet, the user ID is null.");
         }
@@ -187,7 +188,7 @@ public class UserDAO implements dao.UserDAO {
     }
     
     @Override
-    public void update(Long id, String name) throws DAOException {
+    public synchronized void update(Long id, String name) throws DAOException {
         if (id == null || name == null) {
             throw new IllegalArgumentException("neither field can be null.");
         }
@@ -211,7 +212,7 @@ public class UserDAO implements dao.UserDAO {
     }
 
     @Override
-    public User delete(User user) throws DAOException {
+    public synchronized User delete(User user) throws DAOException {
         Object[] values = { 
             user.getID()
         };
@@ -295,13 +296,25 @@ public class UserDAO implements dao.UserDAO {
 
 	@Override
 	public List<String> search(String searchText) throws DAOException {//TODO: Search method in UserDAO
-		/*Object[] values = {
+		Object[] values = {
 	            ("%"+searchText+"%")// in sql, the % operator 
-	        };*/
+	        };
 		
+		ArrayList<String> users = new ArrayList<String>();
 		
-		
-		return null;
+		try (
+	            Connection connection = daoFactory.getConnection();
+	            PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_USERNAME, false, values);
+        ) {
+			ResultSet results = statement.executeQuery();
+			
+			while (results.next()) {
+				users.add(results.getString("username"));
+			}
+		} catch (SQLException e) {
+            throw new DAOException(e);
+        }
+		return users;
 	}
 
 }

@@ -38,7 +38,7 @@ public class PassDAO implements dao.PassDAO {//use MD5 (?) for password sql stat
     }
 
 	@Override
-	public void createPass(Long id, String pass) throws IllegalArgumentException, DAOException {
+	public synchronized void createPass(Long id, String pass) throws IllegalArgumentException, DAOException {
 		if (id == null) throw new IllegalArgumentException("ID can't be null.");
 		int salt = (int) (Math.random()*1000);
 		Object[] values = {
@@ -50,7 +50,7 @@ public class PassDAO implements dao.PassDAO {//use MD5 (?) for password sql stat
 	}
 
 	@Override
-	public void deletePass(Long id) throws IllegalArgumentException, DAOException {
+	public synchronized void deletePass(Long id) throws IllegalArgumentException, DAOException {
 		if (id == null) throw new IllegalArgumentException("ID can't be null.");
 		Object[] values = {id};
 		executeVoid(SQL_DELETE, "Deleting password failed, no rows affected.", values);
@@ -76,7 +76,7 @@ public class PassDAO implements dao.PassDAO {//use MD5 (?) for password sql stat
 	}
 	
 	@Override
-	public void changePass(Long id, String newPass) throws IllegalArgumentException, DAOException {	
+	public synchronized void changePass(Long id, String newPass) throws IllegalArgumentException, DAOException {	
 		
 		int salt = this.getSalt(id);
 		

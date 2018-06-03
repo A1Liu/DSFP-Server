@@ -80,11 +80,6 @@ public abstract class DAOFactory implements dao.DAOFactory {
 	    }
 	    
 	    @Override
-	    public SessionDAO getSessionDAO() {
-	    	return new SessionDAO(this);
-	    }
-	    
-	    @Override
 	    public RatingDAO getRatingDAO() {
 	    	return new RatingDAO(this);
 	    }

@@ -16,9 +16,9 @@ public class LoginDAO {
 	private PassDAO passdao;
 	
 	
-	public LoginDAO(DAOFactory dao) {
-		userdao = dao.getUserDAO();
-		passdao = dao.getPassDAO();
+	public LoginDAO(UserDAO userdao, PassDAO passdao) {
+		this.userdao = userdao;
+		this.passdao = passdao;
 	}
 	
 	/**

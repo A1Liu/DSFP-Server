@@ -47,7 +47,7 @@ public abstract class BaseRequestHandler {
 		return !(user == null || user.getID() == null);
 	}
 	
-	public void setRoot(boolean root) {
+	public void setRoot(boolean root) {//TODO: change this to use 'move to' terminal command
 		this.root = root;
 	}
 	

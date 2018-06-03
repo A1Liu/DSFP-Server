@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import users.RatedUser;
@@ -51,22 +52,25 @@ public interface RatingDAO {
 	 * 
 	 * @param user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public double getRating(User user);
+	public double getRating(User user) throws SQLException;
 	
 	/**
 	 * 
 	 * @param user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<RatedUser> getRatingsFrom(User user);
+	public List<RatedUser> getRatingsFrom(User user) throws SQLException;
 	
 	/**
 	 * Returns a list of ratings to a specified user
 	 * @param user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public List<RatedUser> getRatingsTo(User user);
+	public List<RatedUser> getRatingsTo(User user) throws SQLException;
 	
 	
 	
