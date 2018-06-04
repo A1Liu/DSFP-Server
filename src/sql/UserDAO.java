@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.DAOException;
-import users.RatedUser;
 import users.User;
 
 /**
